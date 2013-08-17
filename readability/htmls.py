@@ -113,3 +113,20 @@ def get_body(doc):
     except Exception: #FIXME find the equivalent lxml error
         logging.error("cleansing broke html content: %s\n---------\n%s" % (raw_html, cleaned))
         return raw_html
+
+def get_top_image_url(doc, url):
+    images = doc.xpath('.//img')
+    if len(images) == 0:
+        return None
+
+    image_index_to_return = 0
+    if "wikipedia" in url and len(images) > 1:
+        image_index_to_return = 1
+
+    return build_image_path(images[image_index_to_return].get("src"), url)
+
+def build_image_path(image, url):
+    relative_image = urllib.quote(image)
+    parsed_url = urlparse.urljoin(url, relative_image)
+    return parsed_url
+

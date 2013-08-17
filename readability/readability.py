@@ -15,6 +15,7 @@ from htmls import build_doc
 from htmls import get_body
 from htmls import get_title
 from htmls import shorten_title
+from htmls import get_top_image_url
 
 
 logging.basicConfig(level=logging.INFO)
@@ -113,6 +114,9 @@ class Document:
         else:
             doc.resolve_base_href()
         return doc
+
+    def top_image_src(self, url):
+        return get_top_image_url(self._html(True), url)
 
     def content(self):
         return get_body(self._html(True))
